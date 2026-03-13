@@ -1,5 +1,6 @@
 import math
 
+
 def solution(n):
     if n < 2:
         return n
