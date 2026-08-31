@@ -1,33 +1,15 @@
 def solution(genres, plays):
-    def is_better(song_a, song_b):
-        return song_a[1] > song_b[1] or (song_a[1] == song_b[1] and song_a[0] < song_b[0])
-
+    # 장르별 총 재생 수와 장르별 곡 목록을 만든 뒤, 총 재생 수가 많은 장르부터 곡을 (재생 수 내림차순, 고유 번호 오름차순)으로 정렬해 최대 2곡씩 담는다.
+    # 시간 복잡도: O(n log n)
     genre_total = {}
-    genre_top_songs = {}
+    genre_songs = {}
     for idx, (genre, play) in enumerate(zip(genres, plays)):
         genre_total[genre] = genre_total.get(genre, 0) + play
-        
-        top_songs = genre_top_songs.setdefault(genre, [])
-        current_song = (idx, play)
-        if not top_songs:
-            top_songs.append(current_song)
-            continue
-
-        if len(top_songs) == 1:
-            if is_better(current_song, top_songs[0]):
-                top_songs.insert(0, current_song)
-            else:
-                top_songs.append(current_song)
-            continue
-
-        if is_better(current_song, top_songs[0]):
-            top_songs[1] = top_songs[0]
-            top_songs[0] = current_song
-        elif is_better(current_song, top_songs[1]):
-            top_songs[1] = current_song
+        genre_songs.setdefault(genre, []).append((idx, play))
 
     answer = []
-    for genre, _ in sorted(genre_total.items(), key=lambda item: item[1], reverse=True):
-        answer.extend(idx for idx, _ in genre_top_songs[genre])
+    for genre in sorted(genre_total, key=lambda g: genre_total[g], reverse=True):
+        songs = sorted(genre_songs[genre], key=lambda song: (-song[1], song[0]))
+        answer.extend(idx for idx, _ in songs[:2])
 
     return answer
