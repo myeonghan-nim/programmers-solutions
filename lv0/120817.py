@@ -1,2 +1,3 @@
 def solution(numbers):
-    return sum(numbers) / len(numbers) if numbers else 0
+    # 평균 = 원소 전체의 합 ÷ 원소의 개수
+    return sum(numbers) / len(numbers)

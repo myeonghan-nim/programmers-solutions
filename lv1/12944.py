@@ -1,5 +1,3 @@
 def solution(arr):
-    answer = 0
-    for i in range(len(arr)):
-        answer += arr[i]
-    return answer / (i + 1)
+    # 모든 원소를 더한 뒤 원소의 개수로 나눠 평균을 구한다
+    return sum(arr) / len(arr)
