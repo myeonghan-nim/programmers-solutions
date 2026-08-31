@@ -1,8 +1,11 @@
 def solution(n, count):
+    # 높은 쌍부터 차례로 배치한다. i번째 쌍은 이미 놓인 2(i-1)채 사이의 틈 (2(i-1)+1곳) 중 하나에 두 채를 붙여 넣는데, 맨 앞 틈에 넣을 때만 새로 보인다. dp[k] = 지금까지 보이는 빌딩(높이 종류)이 k개인 배치의 수.
+    # 시간 복잡도: O(n * count)
     MOD = 1_000_000_007
     dp = [0] * (count + 1)
-    dp[1] = 1
+    dp[1] = 1  # 가장 높은 쌍 하나만 있으면 1채가 보임
     for i in range(2, n + 1):
-        for k in range(min(i, count), 0, -1):
+        for k in range(min(i, count), 0, -1):  # 한 배열을 재사용하려고 뒤에서부터 갱신
+            # 맨 앞에 넣어 보이게 하기(1가지) + 다른 틈에 넣어 가리기(2(i-1)가지)
             dp[k] = (dp[k - 1] + 2 * (i - 1) * dp[k]) % MOD
     return dp[count]
